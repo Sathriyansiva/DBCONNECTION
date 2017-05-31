@@ -20,6 +20,13 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+if(isset($_GET['ibo']))
+{
+$ibo=$_GET['ibo'];
+}	
+	else{
+		$ibo="1000";
+}
 // create the Silex application
 $app = new Application();
 
@@ -52,13 +59,10 @@ $app->get('/', function (Application $app, Request $request) {
     }, $octets);
     $user_ip = $octets[0] . $separator . $octets[1];
     // Look up the last 10 visits
-if(isset($_GET['ibo']))
-{
-$ibo=$_GET['ibo'];
-}
+
 	
     $select = $pdo->prepare(
-        'SELECT * FROM chat where ibo='$ibo'');
+        'SELECT * FROM chat where sender_ibo='$ibo'');
     $select->execute();
    
     $visits = [""];
