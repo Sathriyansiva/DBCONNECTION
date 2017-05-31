@@ -42,7 +42,7 @@ $app->get('/', function (Application $app, Request $request) {
 
     // Look up the last 10 visits
     $select = $pdo->prepare(
-        'SELECT * FROM chat ');
+        'SELECT * FROM chat');
     $select->execute();
    
      $visits = ["Last 10 visits:"];
