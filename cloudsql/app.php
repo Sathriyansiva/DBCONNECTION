@@ -52,18 +52,12 @@ $app->get('/', function (Application $app, Request $request) {
     }, $octets);
     $user_ip = $octets[0] . $separator . $octets[1];
     // Look up the last 10 visits
-	if(isset($_GET['ibo']))
-{
-$ibo=$_GET['ibo'];
-}
+	
 
 
-if(isset($_GET['receiveribo']))
-{
-$receiveribo=$_GET['receiveribo'];
-}
+
     $select = $pdo->prepare(
-        'SELECT * FROM chat'WHERE (sender_ibo =  '$ibo' and receiver_ibo =  '$receiveribo') or  (sender_ibo='$receiveribo' and receiver_ibo='$ibo')");
+        'SELECT * FROM chat);
     $select->execute();
    
     $visits = [""];
