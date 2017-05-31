@@ -58,12 +58,12 @@ $app->get('/', function (Application $app, Request $request) {
 
     // Look up the last 10 visits
     $select = $pdo->prepare(
-        'SELECT * FROM visits ORDER BY time_stamp DESC LIMIT 10');
+        'SELECT * FROM chat ORDER BY created DESC LIMIT 10');
     $select->execute();
     $visits = ["Last 10 visits:"];
     while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-        array_push($visits, sprintf('Time: %s Addr: %s', $row['time_stamp'],
-            $row['user_ip']));
+        array_push($visits, sprintf('Time: %s Addr: %s', $row['created'],
+            $row['message']));
     }
     return new Response(implode("\n", $visits), 200,
         ['Content-Type' => 'text/plain']);
