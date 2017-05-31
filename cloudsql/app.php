@@ -53,7 +53,7 @@ $app->get('/', function (Application $app, Request $request) {
     $user_ip = $octets[0] . $separator . $octets[1];
     // Look up the last 10 visits
     $select = $pdo->prepare(
-        'SELECT * FROM chat');
+        'SELECT message FROM chat');
     $select->execute();
    
     $visits = [""];
