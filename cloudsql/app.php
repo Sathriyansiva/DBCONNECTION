@@ -56,12 +56,12 @@ $app->get('/', function (Application $app, Request $request) {
         'SELECT * FROM chat ORDER BY created DESC ');
     $select->execute();
    
-     $visits = ["Last 10 visits:"];
+   
     while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-        array_push($visits, sprintf('Time: %s Addr: %s', $row['chat'],
-            $row['message']));
+        array_push(sprintf('Time: %s Addr: %s', $row['chat'],
+            $row['message'], $row['sender_ibo'], $row['image'], $row['receiver_ibo']));
     }
-     return new Response(implode("\n", $visits), 200,
+     return new Response(implode("\n"), 200,
         ['Content-Type' => 'text/plain']);
 });
 # [END example]
