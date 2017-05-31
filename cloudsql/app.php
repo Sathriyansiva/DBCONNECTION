@@ -21,8 +21,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 
-		$ibo="1000";
-
 // create the Silex application
 $app = new Application();
 
@@ -58,7 +56,7 @@ $app->get('/', function (Application $app, Request $request) {
 
 	
     $select = $pdo->prepare(
-        'SELECT * FROM chat where sender_ibo='$ibo'');
+        'SELECT * FROM chat');
     $select->execute();
    
     $visits = [""];
