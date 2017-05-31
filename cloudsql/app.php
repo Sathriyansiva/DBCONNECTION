@@ -20,13 +20,9 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-if(isset($_GET['ibo']))
-{
-$ibo=$_GET['ibo'];
-}	
-	else{
+
 		$ibo="1000";
-}
+
 // create the Silex application
 $app = new Application();
 
