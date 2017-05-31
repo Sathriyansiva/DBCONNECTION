@@ -29,15 +29,10 @@ $app['pdo'] = function ($app) {
        $app['mysql.user'],
        $app['mysql.password']
    );
-   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-   $pdo->query('CREATE TABLE IF NOT EXISTS visits ' .
-       '(time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, user_ip CHAR(64))');
    return $pdo;
 };
 
 $app->get('/', function (Application $app, Request $request) {
-   
-
    // Look up the last 10 visits
    $select = $pdo->prepare(
        'SELECT * FROM chat ORDER BY created DESC LIMIT 10');
