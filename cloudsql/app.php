@@ -54,8 +54,7 @@ $app->get('/', function (Application $app, Request $request) {
     // Insert a visit into the database.
     /** @var PDO $pdo */
     $pdo = $app['pdo'];
-    $insert = $pdo->prepare('INSERT INTO visits (user_ip) values (:user_ip)');
-    $insert->execute(['user_ip' => $user_ip]);
+    
 
     // Look up the last 10 visits
     $select = $pdo->prepare(
