@@ -45,11 +45,12 @@ $app->get('/', function (Application $app, Request $request) {
         'SELECT * FROM chat ');
     $select->execute();
    
+     $visits = ["Last 10 visits:"];
     while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-        array_push(sprintf($row['created'],
-            $row['message']));
+        array_push($visits, sprintf('Time: %s Addr: %s', $row['time_stamp'],
+            $row['user_ip']));
     }
-    return new Response(implode("\n"), 200,
+     return new Response(implode("\n", $visits), 200,
         ['Content-Type' => 'text/plain']);
 });
 # [END example]
