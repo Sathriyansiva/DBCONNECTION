@@ -53,12 +53,12 @@ $app->get('/', function (Application $app, Request $request) {
     $user_ip = $octets[0] . $separator . $octets[1];
     // Look up the last 10 visits
     $select = $pdo->prepare(
-        'SELECT * FROM chat ORDER BY created DESC ');
+        'SELECT * FROM chat');
     $select->execute();
    
-    $visits = ["Last 10 visits:"];
+    $visits = [""];
     while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-        array_push($visits,sprintf($row['message'], $row['sender_ibo'], $row['image'], $row['receiver_ibo']));
+        array_push($visits,sprintf($row['sender_ibo'],$row['message'],  $row['image'], $row['receiver_ibo']));
     }
      return new Response(implode("\n", $visits), 200,
         ['Content-Type' => 'text/plain']);
