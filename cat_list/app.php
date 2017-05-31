@@ -51,7 +51,7 @@ $app->get('/', function (Application $app, Request $request) {
     // Look up the last 10 visits
 	
     $select = $pdo->prepare(
-        'SELECT DATE_FORMAT(fromdate,'%H:%i') as time,prod_name,DATE_FORMAT(fromdate, '%Y-%m-%d') as fromdate,DATE_FORMAT(todate, '%Y-%m-%d') as todate,points FROM do_product_hdr where prod_cate='1'');
+        'SELECT FROM do_product_hdr');
     $select->execute();
    
     $visits = [""];
