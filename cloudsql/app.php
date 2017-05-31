@@ -55,15 +55,10 @@ $app->get('/', function (Application $app, Request $request) {
 if(isset($_GET['ibo']))
 {
 $ibo=$_GET['ibo'];
-}	
-
-
-if(isset($_GET['receiveribo']))
-{
-$receiveribo=$_GET['receiveribo'];
 }
+	
     $select = $pdo->prepare(
-        'SELECT * FROM chat WHERE (sender_ibo =  '$ibo' and receiver_ibo =  '$receiveribo') or  (sender_ibo='$receiveribo' and receiver_ibo='$ibo')');
+        'SELECT * FROM chat where ibo='$ibo'');
     $select->execute();
    
     $visits = [""];
