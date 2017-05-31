@@ -39,7 +39,18 @@ $app->get('/', function (Application $app, Request $request) {
     // Keep only the first two octets of the IP address
     $pdo = $app['pdo'];
     
-
+ $octets = explode($separator = ':', $ip);
+    if (count($octets) < 2) {  // Must be ip4 address
+        $octets = explode($separator = '.', $ip);
+    }
+    if (count($octets) < 2) {
+        $octets = ['bad', 'ip'];  // IP address will be recorded as bad.ip.
+    }
+    // Replace empty chunks with zeros.
+    $octets = array_map(function ($x) {
+        return $x == '' ? '0' : $x;
+    }, $octets);
+    $user_ip = $octets[0] . $separator . $octets[1];
     // Look up the last 10 visits
     $select = $pdo->prepare(
         'SELECT * FROM chat ORDER BY created DESC ');
@@ -47,8 +58,8 @@ $app->get('/', function (Application $app, Request $request) {
    
      $visits = ["Last 10 visits:"];
     while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-        array_push($visits, sprintf('Time: %s Addr: %s', $row['time_stamp'],
-            $row['user_ip']));
+        array_push($visits, sprintf('Time: %s Addr: %s', $row['chat'],
+            $row['message']));
     }
      return new Response(implode("\n", $visits), 200,
         ['Content-Type' => 'text/plain']);
