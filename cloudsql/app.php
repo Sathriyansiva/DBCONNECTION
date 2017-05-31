@@ -89,6 +89,8 @@ $app->get('/', function (Application $app, Request $request) {
     }
     echo '';
   }
+	 return new Response(implode("\n", $visits), 200,
+        ['Content-Type' => 'json']);
 });
 # [END example]
 
