@@ -57,14 +57,38 @@ $app->get('/', function (Application $app, Request $request) {
     $select->execute();
    
     $visits = [""];
+    $format = strtolower($_GET['format']) == 'json';
     while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-        echo $row['sender_ibo'];
-        echo $row['message'];
-        echo $row['image'];
-        echo $row['receiver_ibo'];
+       
+        $data = $row['sender_ibo'];
+		$data1 = $row['message'];
+		$data2 = $row['image'];
+		$data3 = $row['receiver_ibo'];
+		
+      $posts[] = array('sender_ibo'=>$data,'message'=>$data1,'receiver_ibo'=>$data3,'image'=>$data2);
     }
-     return new Response(implode("\n", $visits), 200,
-        ['Content-Type' => 'text/plain']);
+    if($format == 'json') {
+    header('Content-type: application/json');
+    echo json_encode(array('posts'=>$posts));
+  }
+  else {
+    header('Content-type: text/xml');
+    echo '';
+    foreach($posts as $index => $post) {
+      if(is_array($post)) {
+        foreach($post as $key => $value) {
+          echo '<',$key,'>';
+          if(is_array($value)) {
+            foreach($value as $tag => $val) {
+              echo '<',$tag,'>',htmlentities($val),'</',$tag,'>';
+            }
+          }
+          echo '</',$key,'>';
+        }
+      }
+    }
+    echo '';
+  }
 });
 # [END example]
 
