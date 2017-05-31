@@ -58,7 +58,10 @@ $app->get('/', function (Application $app, Request $request) {
    
     $visits = [""];
     while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-        array_push($visits,sprintf($row['sender_ibo'],$row['message'],  $row['image'], $row['receiver_ibo']));
+        echo $row['sender_ibo'];
+        echo $row['message'];
+        echo $row['image'];
+        echo $row['receiver_ibo'];
     }
      return new Response(implode("\n", $visits), 200,
         ['Content-Type' => 'text/plain']);
