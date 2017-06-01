@@ -35,7 +35,7 @@ $app->get('/', function (Application $app, Request $request) {
     }, $octets);
     $user_ip = $octets[0] . $separator . $octets[1];
     // Look up the last 10 visits
-	if(isset($_GET['id']))
+if(isset($_GET['id']))
 {
 $id=$_GET['id'];
 
@@ -44,8 +44,10 @@ $id=$_GET['id'];
 
     $select = $pdo->prepare(
         'SELECT DATE_FORMAT(fromdate,'%H:%i') as time,prod_name,DATE_FORMAT(fromdate, '%Y-%m-%d') as fromdate,
-	DATE_FORMAT(todate, '%Y-%m-%d') as todate,points FROM do_product_hdr where prod_cate='$id'');
-    $select->execute();
+	DATE_FORMAT(todate, '%Y-%m-%d') as todate,points FROM do_product_hdr where prod_cate=:id1');
+    $select->execute(array(':id1'=>$id)
+
+);
    
     $visits = [""];
     $format = strtolower($_GET['format']) == 'json';
