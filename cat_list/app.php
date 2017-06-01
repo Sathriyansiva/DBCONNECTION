@@ -81,12 +81,6 @@ $posts[] = array('prod_name' => $prod_name,'fromdate' =>$fromdate1, 'todate' =>$
    
 	}
 	
-	
-	elseif($_GET['name']=='category'))
-{	
-		
-	 echo 'test';   
-   }
 	else
 	{
 	echo 'error';
