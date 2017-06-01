@@ -35,7 +35,13 @@ $app->get('/', function (Application $app, Request $request) {
     }, $octets);
     $user_ip = $octets[0] . $separator . $octets[1];
     // Look up the last 10 visits
-	
+	if(isset($_GET['id']))
+{
+$id=$_GET['id'];
+
+
+ $format = strtolower($_GET['format']) == 'json'; //xml is the default
+
     $select = $pdo->prepare(
         'SELECT DATE_FORMAT(fromdate,'%H:%i') as time,prod_name,DATE_FORMAT(fromdate, '%Y-%m-%d') as fromdate,
 	DATE_FORMAT(todate, '%Y-%m-%d') as todate,points FROM do_product_hdr where prod_cate='$id'');
@@ -60,10 +66,9 @@ $numberDays = $timeDiff/86400;  // 86400 seconds in one day
 
 // and you might want to convert to integer
 $numberDays = intval($numberDays);
-               
-		
-		 $posts[] = array('prod_name' => $prod_name,'fromdate' =>$fromdate1, 'todate' =>$todate1,'interval'=>$numberDays,'time'=>$time,'points'=>$points);
+ $posts[] = array('prod_name' => $prod_name,'fromdate' =>$fromdate1, 'todate' =>$todate1,'interval'=>$numberDays,'time'=>$time,'points'=>$points);
     }
+	
     if($format == 'json') {
     header('Content-type: application/json');
     echo json_encode(array('posts'=>$posts));
@@ -86,6 +91,52 @@ $numberDays = intval($numberDays);
     }
     echo '';
   }
+	}
+	else
+{
+
+
+ $format = strtolower($_GET['format']) == 'json'; //xml is the default
+ $select = $pdo->prepare(
+        'SELECT * FROM do_category');
+    $select->execute();
+   
+    $visits = [""];
+    $format = strtolower($_GET['format']) == 'json';
+    while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
+       
+       
+		$category= $row['cat_name'];
+		$cat_id  = $row['cat_id'];
+		$points = $row}['points'];
+		
+		 $posts[] = array('category' => $category,'id' =>$cat_id,'points' =>$points);
+    }
+	if($format == 'json') {
+    header('Content-type: application/json');
+    echo json_encode(array('posts'=>$posts));
+  }
+  else {
+    header('Content-type: text/xml');
+    echo '';
+    foreach($posts as $index => $post) {
+      if(is_array($post)) {
+        foreach($post as $key => $value) {
+          echo '<',$key,'>';
+          if(is_array($value)) {
+            foreach($value as $tag => $val) {
+              echo '<',$tag,'>',htmlentities($val),'</',$tag,'>';
+            }
+          }
+          echo '</',$key,'>';
+        }
+      }
+    }
+    echo '';
+  }
+  
+  }
+
 	 return new Response(implode("\n", $visits), 200,
         ['Content-Type' => 'json']);
 });
