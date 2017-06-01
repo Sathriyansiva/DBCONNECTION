@@ -50,7 +50,7 @@ $fromdate1= $row['fromdate'];
 $todate1= $row['todate'];
 $points= $row['points'];
 $numberDays="20";
-$posts[] = array('prod_name' => $prod_name,'fromdate' =>$fromdate1, 'todate' =>$todate1,,'interval'=>$numberDays,
+$posts[] = array('prod_name' => $prod_name,'fromdate' =>$fromdate1, 'todate' =>$todate1,'interval'=>$numberDays,
 'time'=>$time,'points'=>$points); 
     }
 	if($format == 'json') {
