@@ -30,10 +30,13 @@ $app->get('/', function (Application $app, Request $request) {
     // Insert a visit into the database.
     /** @var PDO $pdo */
     $pdo = $app['pdo'];
+	if($_GET['name']=='chat'))
+{
+	
    if(isset($_GET['id']))
 {
 $id=$_GET['id'];
-
+}
 
 $format = strtolower($_GET['format']) == 'json'; //xml is the default
     // Look up the last 10 visits
@@ -75,9 +78,20 @@ $posts[] = array('prod_name' => $prod_name,'fromdate' =>$fromdate1, 'todate' =>$
     }
     echo '';
   }
-   }else{
+   
+	}
+	
+	
+	elseif($_GET['name']=='category'))
+{	
+		
 	 echo 'test';   
    }
+	else
+	{
+	echo 'error';
+	}
+	
 	
 	return new Response(implode("\n", $visits), 200,
         ['Content-Type' => 'text/plain']);
