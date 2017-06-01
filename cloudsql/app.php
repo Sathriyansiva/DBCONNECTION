@@ -56,16 +56,19 @@ $app->get('/', function (Application $app, Request $request) {
    
 $format = strtolower($_GET['format']) == 'json'; //xml is the default
     // Look up the last 10 visits
+	$ibo = "1000";
+	$receiveribo="1002";
+	
     $select = $pdo->prepare(
-        'SELECT * FROM chat ORDER BY created DESC');
+        'SELECT * FROM chat WHERE (sender_ibo =  '$ibo' and receiver_ibo =  '$receiveribo') or  (sender_ibo='$receiveribo' and receiver_ibo='$ibo')');
     $select->execute();
-    $visits = ["hi"];
+    $visits = [""];
     while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
      $image= $row['image'];
 		$senderibo =$row['sender_ibo'];
 	        $receiveribo=$row['receiver_ibo'];
 		$message= $row['message'];
-		echo $message;
+		
 		
 	$posts[] = array('image'=>$image,'message' => $message,'senderibo'=>$senderibo,'receiveribo'=>$receiveribo);
 		
