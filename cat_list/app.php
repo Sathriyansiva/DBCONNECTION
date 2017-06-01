@@ -39,28 +39,19 @@ $format = strtolower($_GET['format']) == 'json'; //xml is the default
     // Look up the last 10 visits
 	
 	
-    $select = $pdo->prepare(
-        'SELECT DATE_FORMAT(fromdate,'%H:%i') as time,prod_name,DATE_FORMAT(fromdate, '%Y-%m-%d') 
-	as fromdate,DATE_FORMAT(todate, '%Y-%m-%d') as todate,points FROM do_product_hdr where prod_cate=:id1');
-    $select->execute(array(':id1'=>$id));
-    $visits = [""];
-    while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-    $prod_name= $rows['prod_name'];
-		$time= $rows['time'];
-		$fromdate1= $rows['fromdate'];
-		$todate1= $rows['todate'];
-		$points= $rows['points'];
-		$fromdate= strtotime($rows['fromdate']);
-		$todate= strtotime($rows['todate']);
-		
-$timeDiff = abs($todate - $fromdate);
+   $select = $pdo->prepare(
+'SELECT * FROM do_product_hdr where prod_cate=:id1');
+$select->execute(array(':id1'=>$id));
+$visits = [""];
+while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
+$prod_name= $rows['prod_name'];
+$time= $rows['time'];
+$fromdate1= $rows['fromdate'];
+$todate1= $rows['todate'];
+$points= $rows['points'];
 
-$numberDays = $timeDiff/86400;  // 86400 seconds in one day
-
-// and you might want to convert to integer
-$numberDays = intval($numberDays);
- $posts[] = array('prod_name' => $prod_name,'fromdate' =>$fromdate1, 'todate' =>$todate1,
-		  'interval'=>$numberDays,'time'=>$time,'points'=>$points);	
+$posts[] = array('prod_name' => $prod_name,'fromdate' =>$fromdate1, 'todate' =>$todate1,
+'time'=>$time,'points'=>$points); 
     }
 	if($format == 'json') {
     header('Content-type: application/json');
