@@ -77,12 +77,46 @@ $posts[] = array('prod_name' => $prod_name,'fromdate' =>$fromdate1, 'todate' =>$
     }
     echo '';
   }
-   
-	}
-	
+   }
 	else
 	{
-	echo 'error';
+	$format = strtolower($_GET['format']) == 'json'; //xml is the default
+    // Look up the last 10 visits
+	
+	
+   $select = $pdo->prepare(
+'SELECT * FROM do_category');
+$select->execute(array());
+$visits = [""];
+while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
+$category= $row['cat_name'];
+		$cat_id  = $row['cat_id'];
+		$points = $row['points'];
+		
+		 $posts[] = array('category' => $category,'id' =>$cat_id,'points' =>$points);
+    }
+	if($format == 'json') {
+    header('Content-type: application/json');
+    echo json_encode(array('posts'=>$posts));
+  }
+  else {
+    header('Content-type: text/xml');
+    echo '';
+    foreach($posts as $index => $post) {
+      if(is_array($post)) {
+        foreach($post as $key => $value) {
+          echo '<',$key,'>';
+          if(is_array($value)) {
+            foreach($value as $tag => $val) {
+              echo '<',$tag,'>',htmlentities($val),'</',$tag,'>';
+            }
+          }
+          echo '</',$key,'>';
+        }
+      }
+    }
+    echo '';
+  }
 	}
 	
 	
