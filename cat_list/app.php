@@ -33,7 +33,7 @@ $app->get('/', function (Application $app, Request $request) {
    if(isset($_GET['id']))
 {
 $id=$_GET['id'];
-}
+
 
 $format = strtolower($_GET['format']) == 'json'; //xml is the default
     // Look up the last 10 visits
@@ -75,6 +75,10 @@ $posts[] = array('prod_name' => $prod_name,'fromdate' =>$fromdate1, 'todate' =>$
     }
     echo '';
   }
+   }else{
+	 echo 'test';   
+   }
+	
 	return new Response(implode("\n", $visits), 200,
         ['Content-Type' => 'text/plain']);
 });
