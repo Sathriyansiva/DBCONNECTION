@@ -61,10 +61,10 @@ $format = strtolower($_GET['format']) == 'json'; //xml is the default
     $select->execute();
     $visits = [""];
     while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-     $image= $rows['image'];
-		$senderibo =$rows['sender_ibo'];
-	        $receiveribo=$rows['receiver_ibo'];
-		$message= $rows['message'];
+     $image= $row['image'];
+		$senderibo =$row['sender_ibo'];
+	        $receiveribo=$row['receiver_ibo'];
+		$message= $row['message'];
 		
 		
 	
