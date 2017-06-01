@@ -32,8 +32,7 @@ $app->get('/', function (Application $app, Request $request) {
     $pdo = $app['pdo'];
 	
 	
-   if(isset($_GET['id']))
-{
+   if(isset($_GET['id']) && ($_GET['name']=='product')){
 $id=$_GET['id'];
 
 
@@ -78,7 +77,7 @@ $posts[] = array('prod_name' => $prod_name,'fromdate' =>$fromdate1, 'todate' =>$
     echo '';
   }
    }
-	else
+	else if($_GET['name']=='category')
 	{
 	$format = strtolower($_GET['format']) == 'json'; //xml is the default
     // Look up the last 10 visits
@@ -117,6 +116,9 @@ $category= $row['cat_name'];
     }
     echo '';
   }
+	}
+	else{
+		 echo 'error';
 	}
 	
 	
