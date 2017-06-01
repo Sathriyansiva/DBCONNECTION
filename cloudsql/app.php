@@ -20,7 +20,6 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-
 // create the Silex application
 $app = new Application();
 
@@ -37,10 +36,8 @@ $app['pdo'] = function ($app) {
 
 $app->get('/', function (Application $app, Request $request) {
     $ip = $request->GetClientIp();
-    // Keep only the first two octets of the IP address
-    $pdo = $app['pdo'];
-    
- $octets = explode($separator = ':', $ip);
+    // Keep only the first two octets of the IP address.
+    $octets = explode($separator = ':', $ip);
     if (count($octets) < 2) {  // Must be ip4 address
         $octets = explode($separator = '.', $ip);
     }
@@ -52,48 +49,23 @@ $app->get('/', function (Application $app, Request $request) {
         return $x == '' ? '0' : $x;
     }, $octets);
     $user_ip = $octets[0] . $separator . $octets[1];
-    // Look up the last 10 visits
 
-	
-    $select = $pdo->prepare(
-        'SELECT * FROM chat');
-    $select->execute();
+    // Insert a visit into the database.
+    /** @var PDO $pdo */
+    $pdo = $app['pdo'];
    
+
+    // Look up the last 10 visits
+    $select = $pdo->prepare(
+        'SELECT * FROM chat);
+    $select->execute();
     $visits = [""];
-    $format = strtolower($_GET['format']) == 'json';
     while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-       
-        $data = $row['sender_ibo'];
-		$data1 = $row['message'];
-		$data2 = $row['image'];
-		$data3 = $row['receiver_ibo'];
-		
-      $posts[] = array('sender_ibo'=>$data,'message'=>$data1,'receiver_ibo'=>$data3,'image'=>$data2);
+        array_push($visits, sprintf($row['sender_ibo'],
+           $row['message'], $row['image'], $row['receiver_ibo']));
     }
-    if($format == 'json') {
-    header('Content-type: application/json');
-    echo json_encode(array('posts'=>$posts));
-  }
-  else {
-    header('Content-type: text/xml');
-    echo '';
-    foreach($posts as $index => $post) {
-      if(is_array($post)) {
-        foreach($post as $key => $value) {
-          echo '<',$key,'>';
-          if(is_array($value)) {
-            foreach($value as $tag => $val) {
-              echo '<',$tag,'>',htmlentities($val),'</',$tag,'>';
-            }
-          }
-          echo '</',$key,'>';
-        }
-      }
-    }
-    echo '';
-  }
-	 return new Response(implode("\n", $visits), 200,
-        ['Content-Type' => 'json']);
+    return new Response(implode("\n", $visits), 200,
+        ['Content-Type' => 'text/plain']);
 });
 # [END example]
 
