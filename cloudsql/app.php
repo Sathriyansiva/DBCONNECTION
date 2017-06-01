@@ -70,11 +70,8 @@ $format = strtolower($_GET['format']) == 'json'; //xml is the default
 	
 		 $posts[] = array('image'=>$image,'message' => $message,'senderibo'=>$senderibo,'receiveribo'=>$receiveribo);
     }
-    return new Response(implode("\n", $visits), 200,
-        ['Content-Type' => 'text/plain']);
-});
-# [END example]
-if($format == 'json') {
+    return new Response(implode("\n", $visits), 200,['Content-Type' => 'text/plain']);
+	if($format == 'json') {
     header('Content-type: application/json');
     echo json_encode(array('posts'=>$posts));
   }
@@ -96,4 +93,7 @@ if($format == 'json') {
     }
     echo '';
   }
+});
+# [END example]
+
 return $app;
