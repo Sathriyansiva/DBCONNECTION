@@ -53,11 +53,19 @@ $app->get('/', function (Application $app, Request $request) {
     // Insert a visit into the database.
     /** @var PDO $pdo */
     $pdo = $app['pdo'];
-   
+   if(isset($_GET['ibo']))
+{
+$ibo=$_GET['ibo'];
+}
+
+
+if(isset($_GET['receiveribo']))
+{
+$receiveribo=$_GET['receiveribo'];
+}
 $format = strtolower($_GET['format']) == 'json'; //xml is the default
     // Look up the last 10 visits
-	$ibo ="1000";
-	$receiveribo="1002";
+	
 	
     $select = $pdo->prepare(
         'SELECT * FROM chat WHERE (sender_ibo =:ibo1 and receiver_ibo =:receiveribo1) or  
@@ -69,7 +77,7 @@ $format = strtolower($_GET['format']) == 'json'; //xml is the default
 		$senderibo =$row['sender_ibo'];
 	        $receiveribo=$row['receiver_ibo'];
 		$message= $row['message'];
-		echo $ibo;
+		
 		
 	$posts[] = array('image'=>$image,'message' => $message,'senderibo'=>$senderibo,'receiveribo'=>$receiveribo);
 		
