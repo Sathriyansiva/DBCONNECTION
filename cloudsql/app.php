@@ -54,19 +54,46 @@ $app->get('/', function (Application $app, Request $request) {
     /** @var PDO $pdo */
     $pdo = $app['pdo'];
    
-
+$format = strtolower($_GET['format']) == 'json'; //xml is the default
     // Look up the last 10 visits
     $select = $pdo->prepare(
         'SELECT * FROM chat');
     $select->execute();
     $visits = [""];
     while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-        array_push($visits, sprintf($row['sender_ibo'],
-           $row['message'], $row['image'], $row['receiver_ibo']));
+     $image= $rows['image'];
+		$senderibo =$rows['sender_ibo'];
+	        $receiveribo=$rows['receiver_ibo'];
+		$message= $rows['message'];
+		
+		
+	
+		 $posts[] = array('image'=>$image,'message' => $message,'senderibo'=>$senderibo,'receiveribo'=>$receiveribo);
     }
     return new Response(implode("\n", $visits), 200,
         ['Content-Type' => 'text/plain']);
 });
 # [END example]
-
+if($format == 'json') {
+    header('Content-type: application/json');
+    echo json_encode(array('posts'=>$posts));
+  }
+  else {
+    header('Content-type: text/xml');
+    echo '';
+    foreach($posts as $index => $post) {
+      if(is_array($post)) {
+        foreach($post as $key => $value) {
+          echo '<',$key,'>';
+          if(is_array($value)) {
+            foreach($value as $tag => $val) {
+              echo '<',$tag,'>',htmlentities($val),'</',$tag,'>';
+            }
+          }
+          echo '</',$key,'>';
+        }
+      }
+    }
+    echo '';
+  }
 return $app;
