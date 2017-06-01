@@ -59,7 +59,7 @@ $format = strtolower($_GET['format']) == 'json'; //xml is the default
     $select = $pdo->prepare(
         'SELECT * FROM chat ORDER BY created DESC');
     $select->execute();
-    $visits = [" hi"];
+    $visits = ["hi"];
     while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
      $image= $row['image'];
 		$senderibo =$row['sender_ibo'];
@@ -67,10 +67,10 @@ $format = strtolower($_GET['format']) == 'json'; //xml is the default
 		$message= $row['message'];
 		echo $message;
 		
-	
+	$posts[] = array('image'=>$image,'message' => $message,'senderibo'=>$senderibo,'receiveribo'=>$receiveribo);
 		
     }
-    return new Response(implode("\n", $visits), 200);
+     
 	
 	if($format == 'json') {
     header('Content-type: application/json');
@@ -94,6 +94,8 @@ $format = strtolower($_GET['format']) == 'json'; //xml is the default
     }
     echo '';
   }
+	return new Response(implode("\n", $visits), 200,
+        ['Content-Type' => 'text/plain']);
 });
 # [END example]
 
