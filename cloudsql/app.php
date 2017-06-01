@@ -57,7 +57,7 @@ $app->get('/', function (Application $app, Request $request) {
 $format = strtolower($_GET['format']) == 'json'; //xml is the default
     // Look up the last 10 visits
     $select = $pdo->prepare(
-        'SELECT * FROM chat');
+        'SELECT * FROM chat ORDER BY created DESC');
     $select->execute();
     $visits = [" hi"];
     while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
@@ -65,12 +65,13 @@ $format = strtolower($_GET['format']) == 'json'; //xml is the default
 		$senderibo =$row['sender_ibo'];
 	        $receiveribo=$row['receiver_ibo'];
 		$message= $row['message'];
-		
+		echo $message;
 		
 	
-		 $posts[] = array('image'=>$image,'message' => $message,'senderibo'=>$senderibo,'receiveribo'=>$receiveribo);
+		
     }
     return new Response(implode("\n", $visits), 200);
+	
 	if($format == 'json') {
     header('Content-type: application/json');
     echo json_encode(array('posts'=>$posts));
