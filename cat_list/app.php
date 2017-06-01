@@ -42,7 +42,7 @@ $format = strtolower($_GET['format']) == 'json'; //xml is the default
     $select = $pdo->prepare(
         'SELECT DATE_FORMAT(fromdate,'%H:%i') as time,prod_name,DATE_FORMAT(fromdate, '%Y-%m-%d') 
 	as fromdate,DATE_FORMAT(todate, '%Y-%m-%d') as todate,points FROM do_product_hdr where prod_cate=:id1');
-    $select->execute(array(':id1'=>$ibo));
+    $select->execute(array(':id1'=>$id));
     $visits = [""];
     while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
     $prod_name= $rows['prod_name'];
