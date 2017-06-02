@@ -117,7 +117,7 @@ $category= $row['cat_name'];
 	}
 	else if(isset($_GET['ibo']) && isset($_GET['receiveribo']) && ($_GET['name']=='chat'))
 	{
-		
+	
 $ibo=$_GET['ibo'];
 $receiveribo=$_GET['receiveribo'];
 	$format = strtolower($_GET['format']) == 'json'; //xml is the default
@@ -243,8 +243,9 @@ echo 'success';
 echo 'failiure';
 }	
 }
-else if($_GET['name']=='getibo')
-	{
+else if(($_GET['name']=='getibo') && isset($_GET['Email'])){	
+$Email=$_GET['Email'];
+	
 	$format = strtolower($_GET['format']) == 'json'; //xml is the default
     // Look up the last 10 visits
    $select = $pdo->prepare(
@@ -253,7 +254,7 @@ $select->execute(array());
 $visits = [""];
 while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
 $ibo= $row['IBO'];
-		
+		 echo $Email;
 		 $posts[] = array('IBO' => $ibo);
     }
 	if($format == 'json') {
