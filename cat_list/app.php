@@ -244,17 +244,18 @@ echo 'failiure';
 }	
 }
 else if(isset($_GET['Email']) && ($_GET['name']=='getibo'))
-	{	
+	{
+		
 $Email=$_GET['Email'];
 
 	$format = strtolower($_GET['format']) == 'json'; //xml is the default
     // Look up the last 10 visits
    $select = $pdo->prepare(
-        'SELECT IBO FROM distributor_profile_hdr where Email= :Email1 and Flag='1'');
+        'SELECT IBO FROM distributor_profile_hdr where Email= :Email1 and Flag='0'');
     $select->execute(array(':Email1'=>$Email));
     $visits = [""];
     while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-    $ibo= $row['IBO'];
+   $ibo= $row['IBO'];
 		
 		 $posts[] = array('IBO' => $ibo);
     }
@@ -280,15 +281,10 @@ $Email=$_GET['Email'];
     }
     echo '';
   }
-}
-	
-
-	
+	}
 	else{
 		 echo 'error';
 	}
-	
-	
 	return new Response(implode("\n", $visits), 200,
         ['Content-Type' => 'text/plain']);
 });
