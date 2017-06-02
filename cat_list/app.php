@@ -243,20 +243,18 @@ echo 'success';
 echo 'failiure';
 }	
 }
-else if($_GET['name']=='category')
+else if($_GET['name']=='getibo')
 	{
 	$format = strtolower($_GET['format']) == 'json'; //xml is the default
     // Look up the last 10 visits
    $select = $pdo->prepare(
-'SELECT * FROM do_category');
+'SELECT IBO FROM distributor_profile_hdr');
 $select->execute(array());
 $visits = [""];
 while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-$category= $row['cat_name'];
-		$cat_id  = $row['cat_id'];
-		$points = $row['points'];
+$ibo= $row['IBO'];
 		
-		 $posts[] = array('category' => $category,'id' =>$cat_id,'points' =>$points);
+		 $posts[] = array('IBO' => $ibo);
     }
 	if($format == 'json') {
     header('Content-type: application/json');
