@@ -115,7 +115,7 @@ $category= $row['cat_name'];
     echo '';
   }
 	}
-	else if(isset($_GET['ibo']) && isset($_GET['receiveribo']) && ($_GET['name']=='category'))
+	else if(isset($_GET['ibo']) && isset($_GET['receiveribo']) && ($_GET['name']=='chat'))
 	{
 		
 $ibo=$_GET['ibo'];
