@@ -243,21 +243,20 @@ echo 'success';
 echo 'failiure';
 }	
 }
-else if(isset($_GET['Email']) && ($_GET['name']=='getibo'))
+else if($_GET['name']=='category')
 	{
-		
-$Email=$_GET['Email'];
-
 	$format = strtolower($_GET['format']) == 'json'; //xml is the default
     // Look up the last 10 visits
    $select = $pdo->prepare(
-        'SELECT IBO FROM distributor_profile_hdr where Flag='0' and Email= :Email1');
-    $select->execute(array(':Email1'=>$Email));
-    $visits = [""];
-    while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-   $ibo= $row['IBO'];
+'SELECT * FROM do_category');
+$select->execute(array());
+$visits = [""];
+while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
+$category= $row['cat_name'];
+		$cat_id  = $row['cat_id'];
+		$points = $row['points'];
 		
-		 $posts[] = array('IBO' => $ibo);
+		 $posts[] = array('category' => $category,'id' =>$cat_id,'points' =>$points);
     }
 	if($format == 'json') {
     header('Content-type: application/json');
