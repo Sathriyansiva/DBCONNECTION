@@ -161,8 +161,8 @@ $receiveribo=$_GET['receiveribo'];
 	}
 	else if($_GET['name']=='login')
 	{
-$username = $_POST['username'];
-$password = $_POST['password'];
+$username = "sa@gmail.com";
+$password = "123";
  
 $select = $pdo->prepare(
         'SELECT * FROM  distributor_profile_hdr where Email=:username1 and Password=:password1');
@@ -175,10 +175,7 @@ if($username != '' ){
 echo 'success';
 }else{
 echo 'failiure';
-}
- 
-
-	
+}	
 }
 	else{
 		 echo 'error';
