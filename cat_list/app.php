@@ -245,7 +245,7 @@ echo 'failiure';
 }
 else if(($_GET['name']=='getibo') && isset($_GET['Email'])){	
 $Email=$_GET['Email'];
-	$Flag=["0"];
+	$Flag=["1"];
 	$format = strtolower($_GET['format']) == 'json'; //xml is the default
     // Look up the last 10 visits
    $select = $pdo->prepare(
