@@ -249,7 +249,7 @@ $Email=$_GET['Email'];
 	$format = strtolower($_GET['format']) == 'json'; //xml is the default
     // Look up the last 10 visits
    $select = $pdo->prepare(
-'SELECT IBO FROM distributor_profile_hdr where Email=:Email1');
+'SELECT IBO FROM distributor_profile_hdr where Email=:Email1 and Flag='0'' );
 $select->execute(array(':Email1'=>$Email));
 $visits = [""];
 while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
