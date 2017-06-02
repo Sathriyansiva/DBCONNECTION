@@ -120,15 +120,18 @@ $category= $row['cat_name'];
 	$format = strtolower($_GET['format']) == 'json'; //xml is the default
     // Look up the last 10 visits
    $select = $pdo->prepare(
-'SELECT * FROM do_category');
-$select->execute(array());
-$visits = [""];
-while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-$category= $row['cat_name'];
-		$cat_id  = $row['cat_id'];
-		$points = $row['points'];
+        'SELECT * FROM chat WHERE (sender_ibo =:ibo1 and receiver_ibo =:receiveribo1) or  
+	(sender_ibo=:receiveribo1 and receiver_ibo=:ibo1)');
+    $select->execute(array(':ibo1'=>$ibo,':receiveribo1'=>$receiveribo));
+    $visits = [""];
+    while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
+     $image= $row['image'];
+		$senderibo =$row['sender_ibo'];
+	        $receiveribo=$row['receiver_ibo'];
+		$message= $row['message'];
 		
-		 $posts[] = array('category' => $category,'id' =>$cat_id,'points' =>$points);
+		
+	$posts[] = array('image'=>$image,'message' => $message,'senderibo'=>$senderibo,'receiveribo'=>$receiveribo);
     }
 	if($format == 'json') {
     header('Content-type: application/json');
