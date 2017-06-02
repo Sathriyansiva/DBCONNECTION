@@ -245,7 +245,7 @@ echo 'failiure';
 }
 else if(($_GET['name']=='getibo') && isset($_GET['Email'])){	
 $Email=$_GET['Email'];
-	$Flag="0";
+	$Flag=["0"];
 	$format = strtolower($_GET['format']) == 'json'; //xml is the default
     // Look up the last 10 visits
    $select = $pdo->prepare(
@@ -254,6 +254,44 @@ $select->execute(array(':Email1'=>$Email,':Flag1'=>$Flag));
 $visits = [""];
 while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
 $ibo= $row['IBO'];
+		
+		 $posts[] = array('IBO' => $ibo);
+    }
+	if($format == 'json') {
+    header('Content-type: application/json');
+    echo json_encode(array('posts'=>$posts));
+  }
+  else {
+    header('Content-type: text/xml');
+    echo '';
+    foreach($posts as $index => $post) {
+      if(is_array($post)) {
+        foreach($post as $key => $value) {
+          echo '<',$key,'>';
+          if(is_array($value)) {
+            foreach($value as $tag => $val) {
+              echo '<',$tag,'>',htmlentities($val),'</',$tag,'>';
+            }
+          }
+          echo '</',$key,'>';
+        }
+      }
+    }
+    echo '';
+  }
+	}
+	else if(isset($_GET['Username']) && ($_GET['name']=='getfbibo'))
+	{	
+$Username=$_GET['Username'];
+$Flag=["0"];
+	$format = strtolower($_GET['format']) == 'json'; //xml is the default
+    // Look up the last 10 visits
+   $select = $pdo->prepare(
+        'SELECT IBO FROM distributor_profile_hdr where Username=:Username1 and Flag=:Flag1');
+    $select->execute(array(':Username1'=>$Username,':Flag1'=>$Flag));
+    $visits = [""];
+    while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
+   $ibo= $row['IBO'];
 		
 		 $posts[] = array('IBO' => $ibo);
     }
