@@ -115,8 +115,11 @@ $category= $row['cat_name'];
     echo '';
   }
 	}
-	else if($_GET['name']=='category')
+	else if(isset($_GET['ibo']) && isset($_GET['receiveribo']) && ($_GET['name']=='category'))
 	{
+		
+$ibo=$_GET['ibo'];
+$receiveribo=$_GET['receiveribo'];
 	$format = strtolower($_GET['format']) == 'json'; //xml is the default
     // Look up the last 10 visits
    $select = $pdo->prepare(
