@@ -165,7 +165,7 @@ $username = $_POST['username'];
 $password = $_POST['password'];
  
 $select = $pdo->prepare(
-        'SELECT * FROM chat WHERE (select * from distributor_profile_hdr where Email=:username1 and Password=:password1');
+        'SELECT * FROM  distributor_profile_hdr where Email=:username1 and Password=:password1');
     $select->execute(array(':username1'=>$username,':password1'=>$password));
     $visits = [""];
     while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
